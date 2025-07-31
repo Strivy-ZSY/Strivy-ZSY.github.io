@@ -23,44 +23,37 @@
         <guid>https://Strivy-ZSY.github.io/p/mixture-of-recursions/</guid>
         <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR
 &lt;/h2&gt;&lt;p&gt;本文提出了什么？干了什么？实验效果？价值？&lt;/p&gt;
-&lt;h2 id=&#34;1-研究动机&#34;&gt;1. 研究动机
-&lt;/h2&gt;&lt;h3 id=&#34;11-背景&#34;&gt;1.1 背景
+&lt;h2 id=&#34;研究动机&#34;&gt;研究动机
+&lt;/h2&gt;&lt;h3 id=&#34;背景&#34;&gt;背景
 &lt;/h3&gt;&lt;p&gt;本文的研究背景和意义，不考虑其他因素，一般一句话简要概述大背景即可&lt;/p&gt;
-&lt;h3 id=&#34;12-现有方法的局限性&#34;&gt;1.2 现有方法的局限性
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Gap/Limitation of Existing Work&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;现有方法的局限性&#34;&gt;现有方法的局限性
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Gap/Limitation of Existing Work&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;font color=&#34;#c0504d&#34;&gt;罗列&lt;/font&gt;论文作者指出的以往论文中的问题/痛点&lt;/p&gt;
-&lt;h3 id=&#34;13-本文价值&#34;&gt;1.3 本文价值
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Value Proposition&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;本文价值&#34;&gt;本文价值
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Value Proposition&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;本文设计了什么框架？实现了什么（只说对应的优点即可）？&lt;/p&gt;
-&lt;h2 id=&#34;2-解决的关键问题与贡献&#34;&gt;2. 解决的关键问题与贡献
-&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;Key Problem Solved &amp;amp; Contribution&lt;/p&gt;&lt;/blockquote&gt;
-&lt;h3 id=&#34;21-解决的关键技术问题&#34;&gt;2.1 解决的关键技术问题
+&lt;h2 id=&#34;解决的关键问题与贡献&#34;&gt;解决的关键问题与贡献
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Key Problem Solved &amp;amp; Contribution&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;解决的关键技术问题&#34;&gt;解决的关键技术问题
 &lt;/h3&gt;&lt;p&gt;针对前面的痛点，作者总结出的问题&lt;/p&gt;
-&lt;h3 id=&#34;22-核心贡献&#34;&gt;2.2 核心贡献
+&lt;h3 id=&#34;核心贡献&#34;&gt;核心贡献
 &lt;/h3&gt;&lt;p&gt;&lt;font color=&#34;#c0504d&#34;&gt;罗列&lt;/font&gt;作者的解决方法&lt;/p&gt;
 &lt;p&gt;提出的架构-&amp;gt;核心模块-&amp;gt;数据集实验验证-&amp;gt;性能/SOTA？&lt;/p&gt;
-&lt;h2 id=&#34;3-具体技术细节&#34;&gt;3. 具体技术细节
+&lt;h2 id=&#34;具体技术细节&#34;&gt;具体技术细节
 &lt;/h2&gt;&lt;p&gt;&lt;font color=&#34;#c0504d&#34;&gt;罗列&lt;/font&gt;每个模块的方法，公式，网络图，作用&lt;/p&gt;
-&lt;h2 id=&#34;4-实验分析&#34;&gt;4. 实验分析
+&lt;h2 id=&#34;实验分析&#34;&gt;实验分析
 &lt;/h2&gt;&lt;p&gt;&lt;font color=&#34;#c0504d&#34;&gt;罗列&lt;/font&gt;数据集上和诸多模型的对比效果&lt;/p&gt;
-&lt;h3 id=&#34;43-消融实验&#34;&gt;4.3 消融实验
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Ablation Analysis&lt;/p&gt;&lt;/blockquote&gt;
-&lt;h2 id=&#34;5-批判性思考&#34;&gt;5. 批判性思考
-&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;Cirical Analysis &amp;amp; Personal Thoughts&lt;/p&gt;&lt;/blockquote&gt;
-&lt;h3 id=&#34;51-优点&#34;&gt;5.1 优点
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Strengths&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;消融实验&#34;&gt;消融实验
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Ablation Analysis&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;批判性思考&#34;&gt;批判性思考
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Cirical Analysis &amp;amp; Personal Thoughts&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;优点&#34;&gt;优点
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Strengths&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;自己对该论文优势的总结&lt;/p&gt;
-&lt;h3 id=&#34;52-潜在缺点可疑点&#34;&gt;5.2 潜在缺点/可疑点
-&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;Weaknesses/ Questionable Points&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;潜在缺点可疑点&#34;&gt;潜在缺点/可疑点
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Weaknesses/ Questionable Points&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;模型复杂度？在特定场景的泛化能力？理论基础？&lt;/p&gt;
-&lt;h3 id=&#34;53-ideas-to-borrow&#34;&gt;5.3 Ideas to Borrow
+&lt;h3 id=&#34;ideas-to-borrow&#34;&gt;Ideas to Borrow
 &lt;/h3&gt;&lt;p&gt;该论文值得借鉴的地方&lt;/p&gt;
 </description>
         </item>
