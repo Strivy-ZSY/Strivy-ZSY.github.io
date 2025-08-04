@@ -1,4 +1,4 @@
-This is my blog, built with hugo & GitHub.🤗
+This is my blog, built with Hugo & GitHub.🤗
 
 Click [here](https://strivy-zsy.github.io/) to visit.🥰
 
