@@ -21,13 +21,13 @@
         <pubDate>Thu, 31 Jul 2025 12:31:09 +0800</pubDate>
         
         <guid>https://Strivy-ZSY.github.io/p/mixture-of-recursions/</guid>
-        <description>&lt;img src="https://Strivy-ZSY.github.io/p/mixture-of-recursions/mor_fig1.png" alt="Featured image of post Mixture of Recursions" /&gt;&lt;h2 id=&#34;tldr&#34;&gt;TL;DR
+        <description>&lt;img src="https://Strivy-ZSY.github.io/p/mixture-of-recursions/mor_fig.png" alt="Featured image of post Mixture of Recursions" /&gt;&lt;h2 id=&#34;tldr&#34;&gt;TL;DR
 &lt;/h2&gt;&lt;p&gt;本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。&lt;/p&gt;
 &lt;h2 id=&#34;研究动机-motivation&#34;&gt;研究动机 (Motivation)
 &lt;/h2&gt;&lt;h3 id=&#34;背景-background&#34;&gt;背景 (Background)
 &lt;/h3&gt;&lt;p&gt;随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。&lt;/p&gt;
 &lt;h3 id=&#34;现有方法的局限性-gaplimitations-of-existing-work&#34;&gt;现有方法的局限性 (Gap/Limitations of Existing Work)
-&lt;/h3&gt;&lt;p&gt;现有的两种优化方式分别是&lt;strong&gt;减少或共享模型权重&lt;/strong&gt;和&lt;strong&gt;仅在需要的时候增加计算开销&lt;/strong&gt;，但能有效统一参数效率和自适应计算的架构仍然缺失&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;现有的两种优化方式分别是&lt;strong&gt;减少或共享模型权重&lt;/strong&gt;和&lt;strong&gt;仅在需要的时候增加计算开销&lt;/strong&gt;，但能有效统一参数效率和自适应计算的架构仍然缺失。&lt;/p&gt;
 &lt;h3 id=&#34;本文价值-value-proposition&#34;&gt;本文价值 (Value Proposition)
 &lt;/h3&gt;&lt;p&gt;本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。&lt;/p&gt;
 &lt;h2 id=&#34;解决的关键问题与贡献-key-problem-solved--contribution&#34;&gt;解决的关键问题与贡献 (Key Problem Solved &amp;amp; Contribution)

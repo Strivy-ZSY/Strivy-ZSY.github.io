@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="TL;DR 本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。\n研究动机 (Motivation) 背景 (Background) 随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。\n现有方法的局限性 (Gap/Limitations of Existing Work) 现有的两种优化方式分别是减少或共享模型权重和仅在需要的时候增加计算开销，但能有效统一参数效率和自适应计算的架构仍然缺失\n本文价值 (Value Proposition) 本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。\n解决的关键问题与贡献 (Key Problem Solved &amp; Contribution) 解决的关键技术问题 MoR能在每个token的解码阶段实现潜在思考，同时路由机制促进了模型的自适应推理，突破了先前工作常见的固定思考深度。总的来说，MoR使得模型能根据每个token高效的调整其思考深度，将参数效率与自适应统一起来。\n核心贡献 罗列作者的解决方法\n提出的架构-&gt;核心模块-&gt;数据集实验验证-&gt;性能/SOTA？\n方法详述 (Method) 罗列每个模块的方法，公式，网络图，作用\n实验分析 (Experiments) 罗列数据集上和诸多模型的对比效果\n消融实验 (Ablation Analysis) 批判性思考 (Critical Analysis &amp; Personal Thoughts) 优点 (Strengths) 自己对该论文优势的总结\n潜在缺点/可疑点 (Weaknesses/Questions) 模型复杂度？在特定场景的泛化能力？理论基础？\n启发/可借鉴点 (Insights/Takeaways) 该论文值得借鉴的地方\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="TL;DR 本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。\n研究动机 (Motivation) 背景 (Background) 随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。\n现有方法的局限性 (Gap/Limitations of Existing Work) 现有的两种优化方式分别是减少或共享模型权重和仅在需要的时候增加计算开销，但能有效统一参数效率和自适应计算的架构仍然缺失。\n本文价值 (Value Proposition) 本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。\n解决的关键问题与贡献 (Key Problem Solved &amp; Contribution) 解决的关键技术问题 MoR能在每个token的解码阶段实现潜在思考，同时路由机制促进了模型的自适应推理，突破了先前工作常见的固定思考深度。总的来说，MoR使得模型能根据每个token高效的调整其思考深度，将参数效率与自适应统一起来。\n核心贡献 罗列作者的解决方法\n提出的架构-&gt;核心模块-&gt;数据集实验验证-&gt;性能/SOTA？\n方法详述 (Method) 罗列每个模块的方法，公式，网络图，作用\n实验分析 (Experiments) 罗列数据集上和诸多模型的对比效果\n消融实验 (Ablation Analysis) 批判性思考 (Critical Analysis &amp; Personal Thoughts) 优点 (Strengths) 自己对该论文优势的总结\n潜在缺点/可疑点 (Weaknesses/Questions) 模型复杂度？在特定场景的泛化能力？理论基础？\n启发/可借鉴点 (Insights/Takeaways) 该论文值得借鉴的地方\n">
 <title>Mixture of Recursions</title>
 
 <link rel='canonical' href='https://Strivy-ZSY.github.io/p/mixture-of-recursions/'>
 
 <link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Mixture of Recursions">
-<meta property='og:description' content="TL;DR 本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。\n研究动机 (Motivation) 背景 (Background) 随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。\n现有方法的局限性 (Gap/Limitations of Existing Work) 现有的两种优化方式分别是减少或共享模型权重和仅在需要的时候增加计算开销，但能有效统一参数效率和自适应计算的架构仍然缺失\n本文价值 (Value Proposition) 本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。\n解决的关键问题与贡献 (Key Problem Solved &amp; Contribution) 解决的关键技术问题 MoR能在每个token的解码阶段实现潜在思考，同时路由机制促进了模型的自适应推理，突破了先前工作常见的固定思考深度。总的来说，MoR使得模型能根据每个token高效的调整其思考深度，将参数效率与自适应统一起来。\n核心贡献 罗列作者的解决方法\n提出的架构-&gt;核心模块-&gt;数据集实验验证-&gt;性能/SOTA？\n方法详述 (Method) 罗列每个模块的方法，公式，网络图，作用\n实验分析 (Experiments) 罗列数据集上和诸多模型的对比效果\n消融实验 (Ablation Analysis) 批判性思考 (Critical Analysis &amp; Personal Thoughts) 优点 (Strengths) 自己对该论文优势的总结\n潜在缺点/可疑点 (Weaknesses/Questions) 模型复杂度？在特定场景的泛化能力？理论基础？\n启发/可借鉴点 (Insights/Takeaways) 该论文值得借鉴的地方\n">
+<meta property='og:description' content="TL;DR 本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。\n研究动机 (Motivation) 背景 (Background) 随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。\n现有方法的局限性 (Gap/Limitations of Existing Work) 现有的两种优化方式分别是减少或共享模型权重和仅在需要的时候增加计算开销，但能有效统一参数效率和自适应计算的架构仍然缺失。\n本文价值 (Value Proposition) 本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。\n解决的关键问题与贡献 (Key Problem Solved &amp; Contribution) 解决的关键技术问题 MoR能在每个token的解码阶段实现潜在思考，同时路由机制促进了模型的自适应推理，突破了先前工作常见的固定思考深度。总的来说，MoR使得模型能根据每个token高效的调整其思考深度，将参数效率与自适应统一起来。\n核心贡献 罗列作者的解决方法\n提出的架构-&gt;核心模块-&gt;数据集实验验证-&gt;性能/SOTA？\n方法详述 (Method) 罗列每个模块的方法，公式，网络图，作用\n实验分析 (Experiments) 罗列数据集上和诸多模型的对比效果\n消融实验 (Ablation Analysis) 批判性思考 (Critical Analysis &amp; Personal Thoughts) 优点 (Strengths) 自己对该论文优势的总结\n潜在缺点/可疑点 (Weaknesses/Questions) 模型复杂度？在特定场景的泛化能力？理论基础？\n启发/可借鉴点 (Insights/Takeaways) 该论文值得借鉴的地方\n">
 <meta property='og:url' content='https://Strivy-ZSY.github.io/p/mixture-of-recursions/'>
 <meta property='og:site_name' content='Strivy'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-31T12:31:09&#43;08:00'/><meta property='article:modified_time' content='2025-07-31T12:31:09&#43;08:00'/><meta property='og:image' content='https://Strivy-ZSY.github.io/p/mixture-of-recursions/mor_fig1.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-31T12:31:09&#43;08:00'/><meta property='article:modified_time' content='2025-07-31T12:31:09&#43;08:00'/><meta property='og:image' content='https://Strivy-ZSY.github.io/p/mixture-of-recursions/mor_fig.png' />
 <meta name="twitter:title" content="Mixture of Recursions">
-<meta name="twitter:description" content="TL;DR 本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。\n研究动机 (Motivation) 背景 (Background) 随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。\n现有方法的局限性 (Gap/Limitations of Existing Work) 现有的两种优化方式分别是减少或共享模型权重和仅在需要的时候增加计算开销，但能有效统一参数效率和自适应计算的架构仍然缺失\n本文价值 (Value Proposition) 本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。\n解决的关键问题与贡献 (Key Problem Solved &amp; Contribution) 解决的关键技术问题 MoR能在每个token的解码阶段实现潜在思考，同时路由机制促进了模型的自适应推理，突破了先前工作常见的固定思考深度。总的来说，MoR使得模型能根据每个token高效的调整其思考深度，将参数效率与自适应统一起来。\n核心贡献 罗列作者的解决方法\n提出的架构-&gt;核心模块-&gt;数据集实验验证-&gt;性能/SOTA？\n方法详述 (Method) 罗列每个模块的方法，公式，网络图，作用\n实验分析 (Experiments) 罗列数据集上和诸多模型的对比效果\n消融实验 (Ablation Analysis) 批判性思考 (Critical Analysis &amp; Personal Thoughts) 优点 (Strengths) 自己对该论文优势的总结\n潜在缺点/可疑点 (Weaknesses/Questions) 模型复杂度？在特定场景的泛化能力？理论基础？\n启发/可借鉴点 (Insights/Takeaways) 该论文值得借鉴的地方\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://Strivy-ZSY.github.io/p/mixture-of-recursions/mor_fig1.png' />
+<meta name="twitter:description" content="TL;DR 本文提出了一种混合递归结构，通过令牌和专家路由进行token过滤，KV缓存进行内存节省，在7个样本中以更少的参数实现了超过基线的性能，对Transformer模型的结构有一定的优化意义。\n研究动机 (Motivation) 背景 (Background) 随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。\n现有方法的局限性 (Gap/Limitations of Existing Work) 现有的两种优化方式分别是减少或共享模型权重和仅在需要的时候增加计算开销，但能有效统一参数效率和自适应计算的架构仍然缺失。\n本文价值 (Value Proposition) 本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。\n解决的关键问题与贡献 (Key Problem Solved &amp; Contribution) 解决的关键技术问题 MoR能在每个token的解码阶段实现潜在思考，同时路由机制促进了模型的自适应推理，突破了先前工作常见的固定思考深度。总的来说，MoR使得模型能根据每个token高效的调整其思考深度，将参数效率与自适应统一起来。\n核心贡献 罗列作者的解决方法\n提出的架构-&gt;核心模块-&gt;数据集实验验证-&gt;性能/SOTA？\n方法详述 (Method) 罗列每个模块的方法，公式，网络图，作用\n实验分析 (Experiments) 罗列数据集上和诸多模型的对比效果\n消融实验 (Ablation Analysis) 批判性思考 (Critical Analysis &amp; Personal Thoughts) 优点 (Strengths) 自己对该论文优势的总结\n潜在缺点/可疑点 (Weaknesses/Questions) 模型复杂度？在特定场景的泛化能力？理论基础？\n启发/可借鉴点 (Insights/Takeaways) 该论文值得借鉴的地方\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://Strivy-ZSY.github.io/p/mixture-of-recursions/mor_fig.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -332,10 +332,10 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/p/mixture-of-recursions/">
-                <img src="/p/mixture-of-recursions/mor_fig1_hu_2091c1c27f3768b6.png"
-                        srcset="/p/mixture-of-recursions/mor_fig1_hu_2091c1c27f3768b6.png 800w, /p/mixture-of-recursions/mor_fig1_hu_bb3ef80c942dd77c.png 1600w"
+                <img src="/p/mixture-of-recursions/mor_fig_hu_23a667447f3206ff.png"
+                        srcset="/p/mixture-of-recursions/mor_fig_hu_23a667447f3206ff.png 800w, /p/mixture-of-recursions/mor_fig_hu_45b2a9d34179d952.png 1600w"
                         width="800" 
-                        height="441" 
+                        height="316" 
                         loading="lazy"
                         alt="Featured image of post Mixture of Recursions" />
                 
@@ -392,7 +392,7 @@
 </h2><h3 id="背景-background">背景 (Background)
 </h3><p>随着大语言模型规模的扩大，随之计算和内存的要求也越高，在除数据中心外的地方难以训练和部署，因此对模型效率的优化显得尤为重要。</p>
 <h3 id="现有方法的局限性-gaplimitations-of-existing-work">现有方法的局限性 (Gap/Limitations of Existing Work)
-</h3><p>现有的两种优化方式分别是<strong>减少或共享模型权重</strong>和<strong>仅在需要的时候增加计算开销</strong>，但能有效统一参数效率和自适应计算的架构仍然缺失</p>
+</h3><p>现有的两种优化方式分别是<strong>减少或共享模型权重</strong>和<strong>仅在需要的时候增加计算开销</strong>，但能有效统一参数效率和自适应计算的架构仍然缺失。</p>
 <h3 id="本文价值-value-proposition">本文价值 (Value Proposition)
 </h3><p>本文通过端到端的轻量级路由器为每个token分配固定的递归深度，并根据思考深度决定共享参数块应用次数，同时该token递归机制天然的支持KV缓存，选择性的存储和检索对应的键值对。</p>
 <h2 id="解决的关键问题与贡献-key-problem-solved--contribution">解决的关键问题与贡献 (Key Problem Solved &amp; Contribution)
