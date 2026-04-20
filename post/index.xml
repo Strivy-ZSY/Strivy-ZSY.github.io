@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Posts on Strivy</title>
-        <link>https://Strivy-ZSY.github.io/post/</link>
-        <description>Recent content in Posts on Strivy</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <copyright>Strivy</copyright>
-        <lastBuildDate>Thu, 31 Jul 2025 13:10:19 +0800</lastBuildDate><atom:link href="https://Strivy-ZSY.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>LiteSegFormer3D</title>
-        <link>https://Strivy-ZSY.github.io/p/litesegformer3d/</link>
-        <pubDate>Thu, 31 Jul 2025 13:10:19 +0800</pubDate>
-        
-        <guid>https://Strivy-ZSY.github.io/p/litesegformer3d/</guid>
-        <description></description>
-        </item>
-        
-    </channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on Strivy</title>
+    <link>https://Strivy-ZSY.github.io/post/</link>
+    <description>Recent content in Posts on Strivy</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 20 Apr 2024 20:00:00 +0800</lastBuildDate>
+    <atom:link href="https://Strivy-ZSY.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>📚线性注意力学习</title>
+      <link>https://Strivy-ZSY.github.io/post/linear-attention/</link>
+      <pubDate>Sat, 20 Apr 2024 20:00:00 +0800</pubDate>
+      <guid>https://Strivy-ZSY.github.io/post/linear-attention/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;定义&lt;/strong&gt;：采用矩阵乘法结合律的特点，所设计的一种$\mathcal{O}(n)$时间复杂度的注意力机制&lt;/p&gt;
+&lt;h2 id=&#34;一softmax注意力机制&#34;&gt;一、softmax注意力机制&lt;/h2&gt;
+&lt;p&gt;设输入特征$x$大小为$N×F$，其是由$N$个维度为$F$的特征向量构成的序列（往往$N\gg F$）&lt;/p&gt;
+&lt;p&gt;Transformer的一般表示形式为：&lt;/p&gt;
+$$
+T(x) = f(A(x) + x) \tag{1}
+$$&lt;p&gt;其中，$A(\cdot)$表示注意力机制，$f(\cdot)$表示前馈处理。&lt;/p&gt;
+&lt;p&gt;针对$A(\cdot)$，首先，将$W_Q \in \mathbb{R}^{F \times D}$、$W_K \in \mathbb{R}^{F \times D}$和$W_V \in \mathbb{R}^{F \times M}$作用于$x$投影得到对应的$QKV$，此处的$QK$相乘是计算二者之间的相似性，并通过softmax得到相似性权重矩阵作用于$V$来修正比例，公式如下：&lt;/p&gt;
+$$
+A(x)=V_i&#39;=softmax(\frac{xW_Q(xW_K)^T}{\sqrt{D}})xW_V=softmax(\frac{QK^T}{\sqrt{D}})V \tag{2}
+$$&lt;h2 id=&#34;二线性注意力机制&#34;&gt;二、线性注意力机制&lt;/h2&gt;
+&lt;h3 id=&#34;1基础解释&#34;&gt;1.基础解释&lt;/h3&gt;
+&lt;p&gt;根据$QK$计算相似性的特点，在不考虑因果性的前提下，广义上可表示为：&lt;/p&gt;
+$$
+V_i&#39; = \frac{\sum_{j=1}^{N} \operatorname{sim}(Q_i, K_j) V_j}{\sum_{j=1}^{N} \operatorname{sim}(Q_i, K_j)} \tag{3}
+$$&lt;p&gt;当$\operatorname{sim}(q, k)=\exp \left( \frac{q^T k}{\sqrt{D}} \right)$时，公式(3)等价于公式(2)&lt;/p&gt;
+&lt;p&gt;softmax的一个特点是满足&amp;quot;输出非负&amp;quot;，因为需要的是一个相似性权重矩阵（像是通过打分来调整$V$中数据的分配比例）&lt;/p&gt;
+&lt;p&gt;因此通过某种非负相似度映射函数即可将$QK$拆分开（许多相似度函数可以表示为高维空间的内积），论文中采用的公式如下&lt;/p&gt;
+$$
+\phi (x) = \text{elu}(x) + 1 \tag{4}
+$$&lt;p&gt;更新后的注意力公式如下（采用矩阵乘法交换律）：&lt;/p&gt;
+$$
+V_{i}^{\prime} = \frac{\sum_{j=1}^{N} \phi(Q_{i})^{T} \phi(K_{j}) V_{j}}{\sum_{j=1}^{N} \phi(Q_{i})^{T} \phi(K_{j})}=\frac{\phi(Q_i)^T \sum_{j=1}^N \phi(K_j) V_j^T}{\phi(Q_i)^T \sum_{j=1}^N \phi(K_j)} \tag{5}
+$$&lt;p&gt;公式(2)的时间复杂度为$\mathcal{O}(N^2max(D,M))$，而优化后的公式(5)，首先计算维度为$C$的特征映射，最终时间复杂度为$\mathcal{O}(NCM)$。&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>
